@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Postal Days Off Color Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #color {
+            font-size: 2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Postal Days Off Color Code</h1>
+<p id="color">Calculating...</p>
+
+<script>
+(function() {
+    // Define the sequence of colors
+    const colorSequence = ["Red", "Black", "Yellow", "Blue", "Green", "Brown"];
+
+    // Define the first date (January 1, 2024)
+    const firstDate = new Date('2024-01-01');
+
+    // Get today's date
+    const currentDate = new Date();
+
+    // Calculate the difference in days between the current date and the first date
+    let daysDifference = Math.floor((currentDate - firstDate) / (1000 * 60 * 60 * 24));
+
+    // Handle dates before the first date
+    if (daysDifference < 0) {
+        daysDifference = Math.abs(daysDifference);
+    }
+
+    // Calculate the current day of the week (0=Sunday, 1=Monday, ..., 6=Saturday)
+    let currentDayOfWeek = currentDate.getDay();
+
+    // If it's Sunday, display "Sunday"
+    if (currentDayOfWeek === 0) {
+        document.getElementById("color").textContent = "Today's Color: Sunday";
+    } else {
+        // If it's Saturday (6), treat it like Friday (5)
+        if (currentDayOfWeek === 6) {
+            currentDayOfWeek = 5;
+        }
+
+        // Calculate the difference in weeks
+        const weeksDifference = Math.floor(daysDifference / 7);
+
+        // Calculate the days modulus (modulo 5 for weekdays)
+        const daysModulus = (currentDayOfWeek - 1) % 5;
+
+        // Add weeksDifference and daysModulus
+        let sum = weeksDifference + daysModulus;
+
+        // Add 4 to the sum before modulus 6
+        sum += 4;
+
+        // Calculate the final index
+        const finalIndex = sum % 6;
+
+        // Get the color for today
+        const todayColor = colorSequence[finalIndex];
+
+        // Display the result
+        document.getElementById("color").textContent = `Today's Color: ${todayColor}`;
+    }
+})();
+</script>
+
+</body>
+</html>
